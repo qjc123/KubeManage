@@ -28,10 +28,6 @@ namespace KubeManage.Controllers
                     Version = arr[1]
                 };
 
-                var items = col.FindAll().ToList();
-                
-                Console.WriteLine(items.ToJson());
-
                 col.Insert(dockerImage);
             }
 

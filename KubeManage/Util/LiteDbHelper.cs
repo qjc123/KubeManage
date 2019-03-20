@@ -15,7 +15,7 @@ namespace KubeManage.Util
 
         public static LiteDatabase Db()
         {
-            return new LiteDatabase(Path.Combine(dir, "MyData.db"));
+            return new LiteDatabase(Path.Combine(dir,"db", "MyData.db"));
         }
     }
 }
