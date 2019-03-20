@@ -11,11 +11,16 @@ namespace KubeManage.Util
         static LiteDbHelper()
         {
             dir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+            if (!Directory.Exists(Path.Combine(dir, "db")))
+            {
+                Directory.CreateDirectory(Path.Combine(dir, "db"));
+            }
         }
 
         public static LiteDatabase Db()
         {
-            return new LiteDatabase(Path.Combine(dir,"db", "MyData.db"));
+            return new LiteDatabase(Path.Combine(dir, "db", "MyData.db"));
         }
     }
 }
