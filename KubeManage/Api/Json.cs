@@ -73,7 +73,7 @@ namespace KubeManage.Api
                     return default(T);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return default(T);
             }
@@ -92,7 +92,7 @@ namespace KubeManage.Api
                     return JsonConvert.DeserializeObject<T>(str);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return default(T);
             }

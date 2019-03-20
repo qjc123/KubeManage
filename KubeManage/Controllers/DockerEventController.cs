@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using KubeManage.Api;
+using KubeManage.Entity.Docker;
 using KubeManage.Request.Docker;
+using KubeManage.Util;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KubeManage.Controllers
@@ -13,7 +16,25 @@ namespace KubeManage.Controllers
         [HttpPost]
         public ApiResult ImagePushed([FromBody] ImagePushedRequest request)
         {
-            Console.WriteLine(request.ToJson());
+            using (var db = LiteDbHelper.Db())
+            {
+                var col = db.GetCollection<DockerImage>();
+
+                var arr = request.Image.Split(':');
+
+                DockerImage dockerImage = new DockerImage()
+                {
+                    Image = arr[0],
+                    Version = arr[1]
+                };
+
+                var items = col.FindAll().ToList();
+                
+                Console.WriteLine(items.ToJson());
+
+                col.Insert(dockerImage);
+            }
+
             return new ApiResult();
         }
     }
