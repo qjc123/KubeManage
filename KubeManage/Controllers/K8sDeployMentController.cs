@@ -23,6 +23,7 @@ namespace KubeManage.Controllers
             {
                 list.Add(new DeployMentItem()
                 {
+                    Name = v1Deployment.Metadata.Name,
                     Image = v1Deployment.Spec.Template.Spec.Containers[0].Image
                 });
             }
