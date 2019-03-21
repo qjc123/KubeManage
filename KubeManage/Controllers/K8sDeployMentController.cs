@@ -12,6 +12,7 @@ namespace KubeManage.Controllers
     [Route("api/v{version:apiVersion}/k8s/deployment/[action]")]
     public class K8sDeployMentController : ControllerBase
     {
+        [HttpGet]
         public ApiResult<List<DeployMentItem>> List(string @namespace)
         {
             var deployments = KubeHelper.Client.ListNamespacedDeployment(@namespace).Items;
