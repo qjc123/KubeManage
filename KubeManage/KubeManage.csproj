@@ -15,4 +15,10 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.3" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="StaticFiles\*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>
