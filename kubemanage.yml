@@ -24,10 +24,10 @@ metadata:
   name: kubemanage-ingress
 spec:
   rules:
-    - host: kubemanage.wangjun.gq
+    - host: ipistest.etor.top
       http:
         paths:
-          - path: /
+          - path: /api/kubemanage
             backend:
               serviceName: kubemanage-service
               servicePort: 80

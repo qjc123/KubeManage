@@ -11,7 +11,7 @@ namespace KubeManage.Controllers
 {
     [ApiVersion("1.0")]
     [ApiController]
-    [Route("api/v{version:apiVersion}/k8s/deployment/[action]")]
+    [Route("api/kubemanage/v{version:apiVersion}/k8s/deployment/[action]")]
     public class K8sDeploymentController : ControllerBase
     {
         [HttpGet]

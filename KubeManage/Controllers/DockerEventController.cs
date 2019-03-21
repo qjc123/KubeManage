@@ -10,7 +10,7 @@ namespace KubeManage.Controllers
 {
     [ApiVersion("1.0")]
     [ApiController]
-    [Route("api/v{version:apiVersion}/dockerevent/[action]")]
+    [Route("api/kubemanage/v{version:apiVersion}/dockerevent/[action]")]
     public class DockerEventController : ControllerBase
     {
         [HttpPost]
