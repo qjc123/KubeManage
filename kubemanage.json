@@ -1,0 +1,20 @@
+{
+  "name": "kubemanage",
+  "repoName": "kubemanage",
+  "platform": "dotnet",
+  "baseImage": "mcr.microsoft.com/dotnet/core/aspnet:2.2",
+  "projFile": "KubeManage/KubeManage.csproj",
+  "mainDll": "KubeManage.dll",
+  "containName": "kubemanage",
+  "port": 60000,
+  "volumes": [
+    "/data/kubemanage:/app/db"
+  ],
+  "env": [
+    "ASPNETCORE_ENVIRONMENT=Production"
+  ],
+  "others": [
+    "--cpus=0.1",
+    "--memory=100m"
+  ]
+}

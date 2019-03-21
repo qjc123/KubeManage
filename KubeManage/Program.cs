@@ -19,6 +19,8 @@ namespace KubeManage
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
+                .UseUrls("http://*:60000")
                 .UseStartup<Startup>();
     }
 }

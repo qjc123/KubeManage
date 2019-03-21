@@ -10,7 +10,7 @@ namespace KubeManage.Controllers
     [ApiVersion("1.0")]
     [ApiController]
     [Route("api/v{version:apiVersion}/k8s/deployment/[action]")]
-    public class K8sDeployMentController : ControllerBase
+    public class K8sDeploymentController : ControllerBase
     {
         [HttpGet]
         public ApiResult<List<DeployMentItem>> List(string @namespace)
@@ -21,14 +21,14 @@ namespace KubeManage.Controllers
 
             foreach (var v1Deployment in deployments)
             {
-                list.Add(new DeployMentItem()
+                list.Add(new DeployMentItem
                 {
                     Name = v1Deployment.Metadata.Name,
                     Image = v1Deployment.Spec.Template.Spec.Containers[0].Image
                 });
             }
 
-            return new ApiResult<List<DeployMentItem>>() {Data = list};
+            return new ApiResult<List<DeployMentItem>> {Data = list};
         }
     }
 }
