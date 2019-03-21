@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -14,6 +15,11 @@ namespace KubeManage
     {
         public static void Main(string[] args)
         {
+            using (var dbcontext = new DataContext())
+            {
+                dbcontext.Database.Migrate();
+            }
+            
             CreateWebHostBuilder(args).Build().Run();
         }
 

@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kubemanage-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 60000
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: kubemanage-service
+subsets:
+  - addresses:
+      - ip: 172.16.189.19
+    ports:
+      - port: 60000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubemanage-ingress
+spec:
+  rules:
+    - host: kubemanage.wangjun.gq
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: kubemanage-service
+              servicePort: 80

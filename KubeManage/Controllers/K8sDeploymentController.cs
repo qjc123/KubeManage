@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using k8s;
 using KubeManage.Api;
+using KubeManage.Entity.Docker;
 using KubeManage.Response.K8s;
 using KubeManage.Util;
 using Microsoft.AspNetCore.Mvc;
@@ -15,20 +17,34 @@ namespace KubeManage.Controllers
         [HttpGet]
         public ApiResult<List<DeployMentItem>> List(string @namespace)
         {
-            var deployments = KubeHelper.Client.ListNamespacedDeployment(@namespace).Items;
-
-            List<DeployMentItem> list = new List<DeployMentItem>();
-
-            foreach (var v1Deployment in deployments)
+            using (var dbcontext = new DataContext())
             {
-                list.Add(new DeployMentItem
-                {
-                    Name = v1Deployment.Metadata.Name,
-                    Image = v1Deployment.Spec.Template.Spec.Containers[0].Image
-                });
-            }
+                var deployments = KubeHelper.Client.ListNamespacedDeployment(@namespace).Items;
 
-            return new ApiResult<List<DeployMentItem>> {Data = list};
+                List<DeployMentItem> list = new List<DeployMentItem>();
+
+                foreach (var v1Deployment in deployments)
+                {
+                    var arr = v1Deployment.Spec.Template.Spec.Containers[0].Image.Split(':');
+
+                    list.Add(new DeployMentItem
+                    {
+                        Name = v1Deployment.Metadata.Name,
+                        CurrentImage = new Image()
+                        {
+                            Name = arr[0],
+                            Version = arr[1]
+                        },
+                        RegistryVersions = dbcontext.DockerImages
+                            .Where(t => t.Image == arr[0])
+                            .OrderByDescending(t => t.Time)
+                            .Take(10).ToList()
+                    });
+                }
+
+
+                return new ApiResult<List<DeployMentItem>> {Data = list};
+            }
         }
     }
 }

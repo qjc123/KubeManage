@@ -16,10 +16,8 @@ namespace KubeManage.Controllers
         [HttpPost]
         public ApiResult ImagePushed([FromBody] ImagePushedRequest request)
         {
-            using (var db = LiteDbHelper.Db())
+            using (var dbcontext = new DataContext())
             {
-                var col = db.GetCollection<DockerImage>();
-
                 var arr = request.Image.Split(':');
 
                 DockerImage dockerImage = new DockerImage()
@@ -28,7 +26,9 @@ namespace KubeManage.Controllers
                     Version = arr[1]
                 };
 
-                col.Insert(dockerImage);
+                dbcontext.DockerImages.Add(dockerImage);
+
+                dbcontext.SaveChanges();
             }
 
             return new ApiResult();
