@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Reflection;
+using KubeManage.Entity;
 using KubeManage.Entity.Docker;
+using KubeManage.Util;
 using Microsoft.EntityFrameworkCore;
 
 namespace KubeManage
@@ -10,11 +12,13 @@ namespace KubeManage
     {
         public DbSet<DockerImage> DockerImages { get; set; }
         
+        public DbSet<Manager> Managers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
-                string dir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                string dir = PathHelper.BinPath;
 
                 if (!Directory.Exists(Path.Combine(dir, "db")))
                 {
@@ -35,8 +39,13 @@ namespace KubeManage
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<DockerImage>().HasKey(t => t.Id);
-            modelBuilder.Entity<DockerImage>().Property(t => t.Id).ValueGeneratedOnAdd();
+            var dockerImage = modelBuilder.Entity<DockerImage>();
+            dockerImage.HasKey(t => t.Id);
+            dockerImage.Property(t => t.Id).ValueGeneratedOnAdd();
+
+            var manager = modelBuilder.Entity<Manager>();
+            manager.HasKey(t => t.Id);
+            manager.Property(t => t.Id).ValueGeneratedOnAdd();
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using KubeManage.Entity;
+using KubeManage.Util;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +20,16 @@ namespace KubeManage
             using (var dbcontext = new DataContext())
             {
                 dbcontext.Database.Migrate();
+                
+                LocalConfig.Instance.ManagerPhoneNumbers.ForEach(number =>
+                {
+                    if (!dbcontext.Managers.Any(t => t.PhoneNumber == number))
+                    {
+                        dbcontext.Managers.Add(new Manager() {PhoneNumber = number});
+                    }
+                });
+
+                dbcontext.SaveChanges();
             }
             
             CreateWebHostBuilder(args).Build().Run();

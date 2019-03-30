@@ -8,7 +8,8 @@
   "containName": "kubemanage",
   "port": 60000,
   "volumes": [
-    "/data/kubemanage:/app/db"
+    "/data/kubemanage:/app/db",
+	"/data/kubemanage/config:/app/config"
   ],
   "env": [
     "ASPNETCORE_ENVIRONMENT=Production"
