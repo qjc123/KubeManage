@@ -4,6 +4,7 @@ using KubeManage.Api;
 using KubeManage.Entity.Docker;
 using KubeManage.Request.Docker;
 using KubeManage.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KubeManage.Controllers
@@ -14,6 +15,7 @@ namespace KubeManage.Controllers
     public class DockerEventController : ControllerBase
     {
         [HttpPost]
+        [AllowAnonymous]
         public ApiResult ImagePushed([FromBody] ImagePushedRequest request)
         {
             using (var dbcontext = new DataContext())
