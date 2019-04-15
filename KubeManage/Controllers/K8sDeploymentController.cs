@@ -5,12 +5,14 @@ using KubeManage.Api;
 using KubeManage.Entity.Docker;
 using KubeManage.Response.K8s;
 using KubeManage.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KubeManage.Controllers
 {
     [ApiVersion("1.0")]
     [ApiController]
+    [Authorize]
     [Route("api/kubemanage/v{version:apiVersion}/k8s/deployment/[action]")]
     public class K8sDeploymentController : ControllerBase
     {
