@@ -74,12 +74,14 @@ namespace KubeManage.Controllers
                 throw new Exception("验证码错误");
             }
 
+            var now = DateTime.UtcNow;
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(new {Phone = phoneNumber})),
-                new Claim(JwtRegisteredClaimNames.Nbf, $"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}"),
+                new Claim(JwtRegisteredClaimNames.Nbf, $"{new DateTimeOffset(now).ToUnixTimeSeconds()}"),
                 new Claim(JwtRegisteredClaimNames.Exp,
-                    $"{new DateTimeOffset(DateTime.Now.AddHours(30)).ToUnixTimeSeconds()}")
+                    $"{new DateTimeOffset(now.AddHours(30)).ToUnixTimeSeconds()}")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("AA5CDEA5AEEF4641932668D523AAFE17"));
