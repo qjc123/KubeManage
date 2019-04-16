@@ -91,7 +91,7 @@ namespace KubeManage.Controllers
                 issuer: "ipis.etor.top",
                 audience: "ipis.etor.top",
                 claims: claims,
-                expires: DateTime.Now.AddHours(30),
+                expires: now.AddHours(30),
                 signingCredentials: creds);
 
             return new ApiResult() {Message = new JwtSecurityTokenHandler().WriteToken(token)};
