@@ -46,10 +46,10 @@ namespace KubeManage
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidateLifetime = false,
+                        ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidAudience = "ipis.etor.top",
-                        ValidIssuer = "ipis.etor.top",
+                        ValidAudience = "ipistest.etor.top",
+                        ValidIssuer = "ipistest.etor.top",
                         ClockSkew = TimeSpan.Zero,
                         IssuerSigningKey =
                             new SymmetricSecurityKey(Encoding.UTF8.GetBytes("AA5CDEA5AEEF4641932668D523AAFE17"))

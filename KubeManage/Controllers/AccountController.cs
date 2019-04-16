@@ -88,8 +88,8 @@ namespace KubeManage.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "ipis.etor.top",
-                audience: "ipis.etor.top",
+                issuer: "ipistest.etor.top",
+                audience: "ipistest.etor.top",
                 claims: claims,
                 expires: now.AddHours(30),
                 signingCredentials: creds);
