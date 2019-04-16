@@ -46,7 +46,7 @@ namespace KubeManage
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
                         ValidateIssuerSigningKey = true,
                         ValidAudience = "ipis.etor.top",
                         ValidIssuer = "ipis.etor.top",
