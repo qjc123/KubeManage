@@ -39,23 +39,6 @@ namespace KubeManage
             IdentityModelEventSource.ShowPII = true;
 
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidAudience = "ipistest.etor.top",
-                        ValidIssuer = "ipistest.etor.top",
-                        ClockSkew = TimeSpan.Zero,
-                        IssuerSigningKey =
-                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("AA5CDEA5AEEF4641932668D523AAFE17"))
-                    };
-                });
-
             services
                 .AddOptions()
                 .AddSingleton(Configuration)
