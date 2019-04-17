@@ -38,8 +38,9 @@ namespace KubeManage.Api
 
                     Token token = JsonConvert.DeserializeObject<Token>(tokenText);
 
-                    if (token.CreateTime < DateTime.Now.AddDays(1))
+                    if (token.CreateTime < DateTime.Now.AddDays(-1))
                     {
+                        Console.WriteLine("token过期");
                         context.Result = new UnauthorizedResult();
                     }
                 }
