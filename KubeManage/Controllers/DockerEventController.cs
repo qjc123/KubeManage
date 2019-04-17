@@ -24,7 +24,7 @@ namespace KubeManage.Controllers
 
                 DockerImage dockerImage = new DockerImage()
                 {
-                    Image = arr[0],
+                    Image = arr[0].Replace("registry-vpc.cn-hangzhou.aliyuncs.com","registry.cn-hangzhou.aliyuncs.com"),
                     Version = arr[1]
                 };
 
