@@ -48,6 +48,11 @@ namespace KubeManage.Api
                     context.Result = new UnauthorizedResult();
                 }
             }
+            else
+            {
+                
+                context.Result= new UnauthorizedResult();
+            }
         }
     }
 
