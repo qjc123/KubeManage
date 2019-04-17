@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using KubeManage.Api;
 using KubeManage.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -48,7 +49,7 @@ namespace KubeManage
                     option.AssumeDefaultVersionWhenUnspecified = true;
                     option.DefaultApiVersion = new ApiVersion(1, 0);
                 })
-                .AddMvc()
+                .AddMvc(options => { options.Filters.Add(new ManageAuthFilter()); })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                 {

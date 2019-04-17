@@ -13,6 +13,8 @@ namespace KubeManage.Util
 
         private static LocalConfig _instance = null;
 
+        public  string AesKey { get; set; }
+
         public static LocalConfig Instance
         {
             get
