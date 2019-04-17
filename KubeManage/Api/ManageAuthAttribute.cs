@@ -45,12 +45,13 @@ namespace KubeManage.Api
                 }
                 catch
                 {
+                    Console.WriteLine("token解析失败");
                     context.Result = new UnauthorizedResult();
                 }
             }
             else
             {
-                
+                Console.WriteLine("token不存在");
                 context.Result= new UnauthorizedResult();
             }
         }
