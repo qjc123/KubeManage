@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using k8s;
+using k8s.Models;
 using KubeManage.Api;
 using KubeManage.Entity.Docker;
+using KubeManage.Request.Docker;
 using KubeManage.Response.K8s;
 using KubeManage.Util;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KubeManage.Controllers
@@ -46,6 +49,37 @@ namespace KubeManage.Controllers
 
                 return new ApiResult<List<DeployMentItem>> {Data = list};
             }
+        }
+
+        [HttpPost, AllowAnonymous]
+        public ApiResult UpdateImageVersion([FromBody] ImagePushedRequest request)
+        {
+            var arr = request.Image.Split(':');
+
+            DockerImage dockerImage = new DockerImage()
+            {
+                Image = arr[0].Replace("registry-vpc.cn-hangzhou.aliyuncs.com", "registry.cn-hangzhou.aliyuncs.com"),
+                Version = arr[1]
+            };
+
+            var deployments = KubeHelper.Client.ListNamespacedDeployment("psip").Items;
+
+            foreach (var v1Deployment in deployments)
+            {
+                var deployMentImage = v1Deployment.Spec.Template.Spec.Containers[0].Image.Split(':')[0]
+                    .Replace("registry-vpc.cn-hangzhou.aliyuncs.com", "registry.cn-hangzhou.aliyuncs.com");
+
+                if (deployMentImage == dockerImage.Image)
+                {
+                    var patch = new JsonPatchDocument<V1Deployment>();
+
+                    patch.Replace(t => t.Spec.Template.Spec.Containers[0].Image, request.Image);
+
+                    KubeHelper.Client.PatchNamespacedDeployment(new V1Patch(patch), v1Deployment.Metadata.Name, "psip");
+                }
+            }
+
+            return new ApiResult();
         }
     }
 }
