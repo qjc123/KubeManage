@@ -5,6 +5,7 @@ using k8s.Models;
 using KubeManage.Api;
 using KubeManage.Entity.Docker;
 using KubeManage.Request.Docker;
+using KubeManage.Request.K8s;
 using KubeManage.Response.K8s;
 using KubeManage.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -51,8 +52,8 @@ namespace KubeManage.Controllers
             }
         }
 
-        [HttpPost, AllowAnonymous]
-        public ApiResult UpdateImageVersion([FromBody] ImagePushedRequest request)
+        [HttpPost]
+        public ApiResult UpdateImageVersion([FromBody] UpdateImageVersionRequest request)
         {
             var arr = request.Image.Split(':');
 
@@ -62,7 +63,7 @@ namespace KubeManage.Controllers
                 Version = arr[1]
             };
 
-            var deployments = KubeHelper.Client.ListNamespacedDeployment("psip").Items;
+            var deployments = KubeHelper.Client.ListNamespacedDeployment(request.NS).Items;
 
             foreach (var v1Deployment in deployments)
             {
@@ -75,7 +76,8 @@ namespace KubeManage.Controllers
 
                     patch.Replace(t => t.Spec.Template.Spec.Containers[0].Image, request.Image);
 
-                    KubeHelper.Client.PatchNamespacedDeployment(new V1Patch(patch), v1Deployment.Metadata.Name, "psip");
+                    KubeHelper.Client.PatchNamespacedDeployment(new V1Patch(patch), v1Deployment.Metadata.Name,
+                        request.NS);
                 }
             }
 

@@ -13,7 +13,9 @@ namespace KubeManage.Util
 
         private static LocalConfig _instance = null;
 
-        public  string AesKey { get; set; }
+        public string AesKey { get; set; }
+
+        public bool CheckToken { get; set; } = true;
 
         public static LocalConfig Instance
         {

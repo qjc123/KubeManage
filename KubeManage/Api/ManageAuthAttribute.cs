@@ -21,6 +21,11 @@ namespace KubeManage.Api
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            if (!LocalConfig.Instance.CheckToken)
+            {
+                return;
+            }
+
             if (context.Filters.Any(item => item is IAllowAnonymousFilter))
             {
                 return;
@@ -53,7 +58,7 @@ namespace KubeManage.Api
             else
             {
                 Console.WriteLine("token不存在");
-                context.Result= new UnauthorizedResult();
+                context.Result = new UnauthorizedResult();
             }
         }
     }
@@ -61,7 +66,7 @@ namespace KubeManage.Api
     public class Token
     {
         public string Phone { get; set; }
-        
+
         public DateTime CreateTime { get; set; }
     }
 }
